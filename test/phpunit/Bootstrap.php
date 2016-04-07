@@ -12,6 +12,7 @@ use RuntimeException;
 error_reporting(E_ALL | E_STRICT);
 chdir(__DIR__);
 
+
 /**
  * Class Bootstrap
  *
