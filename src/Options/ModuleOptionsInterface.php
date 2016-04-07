@@ -12,5 +12,4 @@ namespace Nnx\Container\Options;
  */
 interface ModuleOptionsInterface
 {
-
 }
