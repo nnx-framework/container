@@ -15,7 +15,7 @@ use Interop\Container\ContainerInterface as BaseContainerInterface;
 interface ContainerInterface extends BaseContainerInterface
 {
     /**
-     * Получение сервиса из контейнера
+     * Получение объекта из контейнера
      *
      * @param string $id
      * @param array  $options
@@ -27,7 +27,7 @@ interface ContainerInterface extends BaseContainerInterface
     public function get($id, array $options = null, $context = null);
 
     /**
-     * Проверяет возможность получить сервис из данного контейнера
+     * Проверяет возможность получить объект из данного контейнера
      *
      * @param string $id
      *
@@ -38,12 +38,12 @@ interface ContainerInterface extends BaseContainerInterface
     public function has($id, $context = null);
 
     /**
-     * Возвращает имя сервиса, в зависимости от контекста вызова
+     * Возвращает имя, по которому можно получить объект из контейнера, в зависимости от контекста вызова
      *
      * @param string $id
      * @param null $context
      *
      * @return string
      */
-    public function getServiceNameByContext($id, $context = null);
+    public function getEntryNameByContext($id, $context = null);
 }
