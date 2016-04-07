@@ -1,0 +1,7 @@
+docs_dir: doc/book/ru
+pages:
+    - index.md
+site_name: container
+site_description: 'Контейнер - расширение ServiceLocator'
+repo_url: 'https://github.com/nnx-framework/container'
+copyright: 'Copyright (c) 2016 <a href="https://github.com/nnx-framework">NNX</a>'
