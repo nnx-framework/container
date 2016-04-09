@@ -5,8 +5,9 @@
  */
 namespace Nnx\Container;
 
-
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Listener\ServiceListenerInterface;
+use Zend\ModuleManager\ModuleManager;
 use Zend\ModuleManager\ModuleManagerInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
@@ -14,7 +15,9 @@ use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\InitProviderInterface;
-
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Nnx\Container\EntryNameResolver\EntryNameResolverManager;
+use Nnx\Container\EntryNameResolver\EntryNameResolverProviderInterface;
 
 /**
  * Class Module
@@ -32,7 +35,7 @@ class Module implements
      *
      * @var string
      */
-    const CONFIG_KEY = 'nnx_container';
+    const CONFIG_KEY = 'nnx_container_module_options';
 
     /**
      * Имя модуля
@@ -49,6 +52,40 @@ class Module implements
      */
     public function init(ModuleManagerInterface $manager)
     {
+        if (!$manager instanceof ModuleManager) {
+            $errMsg =sprintf('Module manager not implement %s', ModuleManager::class);
+            throw new Exception\InvalidArgumentException($errMsg);
+        }
+
+        /** @var ServiceLocatorInterface $sm */
+        $sm = $manager->getEvent()->getParam('ServiceManager');
+
+        if (!$sm instanceof ServiceLocatorInterface) {
+            $errMsg = sprintf('Service locator not implement %s', ServiceLocatorInterface::class);
+            throw new Exception\InvalidArgumentException($errMsg);
+        }
+        /** @var ServiceListenerInterface $serviceListener */
+        $serviceListener = $sm->get('ServiceListener');
+        if (!$serviceListener instanceof ServiceListenerInterface) {
+            $errMsg = sprintf('ServiceListener not implement %s', ServiceListenerInterface::class);
+            throw new Exception\InvalidArgumentException($errMsg);
+        }
+
+
+        $serviceListener->addServiceManager(
+            EntryNameResolverManager::class,
+            EntryNameResolverManager::CONFIG_KEY,
+            EntryNameResolverProviderInterface::class,
+            'getEntryNameResolverConfig'
+        );
+        
+        $serviceListener->addServiceManager(
+            ContainerInterface::class,
+            Container::CONFIG_KEY,
+            ContainerProviderInterface::class,
+            'getContainerConfig'
+        );
+
 
     }
 
@@ -76,13 +113,13 @@ class Module implements
      */
     public function getAutoloaderConfig()
     {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
+        return [
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
                     __NAMESPACE__ => __DIR__ . '/src/',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
 

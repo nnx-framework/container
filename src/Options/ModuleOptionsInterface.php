@@ -12,4 +12,10 @@ namespace Nnx\Container\Options;
  */
 interface ModuleOptionsInterface
 {
+    /**
+     * Возвращает список резолверов для определения имени "сервиса", исходя из контекста.
+     *
+     * @return array
+     */
+    public function getEntryNameResolvers();
 }
