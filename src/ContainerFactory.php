@@ -5,9 +5,10 @@
  */
 namespace Nnx\Container;
 
+use Nnx\EntryNameResolver\EntryNameResolverManagerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Nnx\Container\EntryNameResolver\EntryNameResolverManager;
+use Nnx\Container\EntryNameResolver\DefaultEntryNameResolver;
 
 /**
  * Class ContainerFactory
@@ -27,11 +28,11 @@ class ContainerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @var EntryNameResolverManager $entryNameResolverManager */
-        $entryNameResolverManager = $serviceLocator->get(EntryNameResolverManager::class);
+        /** @var EntryNameResolverManagerInterface $entryNameResolverManager */
+        $entryNameResolverManager = $serviceLocator->get(EntryNameResolverManagerInterface::class);
 
-        /** @var DefaultEntryNameResolverInterface $defaultEntryNameResolver */
-        $defaultEntryNameResolver = $entryNameResolverManager->get(DefaultEntryNameResolverInterface::class);
+        /** @var DefaultEntryNameResolver $defaultEntryNameResolver */
+        $defaultEntryNameResolver = $entryNameResolverManager->get(DefaultEntryNameResolver::class);
 
         return new Container($defaultEntryNameResolver);
     }

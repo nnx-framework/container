@@ -19,6 +19,7 @@
   "require": {
     "php": ">=5.5.0",
     "nnx/module-options": "~0.1.0",
+    "nnx/entry-name-resolver": "~0.1.0",
     "zendframework/zend-modulemanager": "~2.4.0",
     "zendframework/zend-mvc": "~2.4.0",
     "zendframework/zend-eventmanager": "~2.4.0",

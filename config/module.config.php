@@ -5,8 +5,9 @@
  */
 namespace Nnx\Container;
 
-use Nnx\Container\EntryNameResolver\ResolverByClassName;
-use Nnx\Container\EntryNameResolver\ResolverByMap;
+use Nnx\EntryNameResolver\ResolverByClassName;
+use Nnx\Container\EntryNameResolver\ResolverByModuleContextMap;
+use Nnx\EntryNameResolver\EntryNameResolverMirror;
 
 $config = [
     Module::CONFIG_KEY => [
@@ -24,15 +25,18 @@ $config = [
          * ]
          */
         'entryNameResolvers' => [
-            ResolverByClassName::class => [
-                'name' => ResolverByClassName::class
+            'resolverByModuleContextMap' => [
+                'name' => ResolverByModuleContextMap::class,
+                'priority' => 1000
             ],
-            ResolverByMap::class => [
-                'name' => ResolverByMap::class,
-                'options' => [
-                    'configKey' => ''
-                ]
-            ]
+            'resolverByClassName' => [
+                'name' => ResolverByClassName::class,
+                'priority' => 900
+            ],
+            'mirrorResolver' => [
+                'name' => EntryNameResolverMirror::class
+            ],
+
         ],
         /**
          * Карта используемая для определения имени сервиса в зависимости от контекста вызова
@@ -50,7 +54,7 @@ $config = [
 
 return array_merge_recursive(
     include __DIR__ . '/container.config.php',
-    include __DIR__ . '/containerEntryNameResolver.config.php',
+    include __DIR__ . '/entryNameResolver.config.php',
     include __DIR__ . '/serviceManager.config.php',
     $config
 );

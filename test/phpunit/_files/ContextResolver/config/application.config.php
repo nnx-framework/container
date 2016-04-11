@@ -5,10 +5,12 @@ use Nnx\Container\PhpUnit\TestData\ContextResolver\Service;
 use Nnx\Container\PhpUnit\TestData\ContextResolver\Custom\Service as CustomService;
 use Nnx\Container\Module;
 use Nnx\ModuleOptions\Module as ModuleOptions;
+use Nnx\EntryNameResolver\Module as EntryNameResolverModule;
+
 return [
     'modules'                 => [
         ModuleOptions::MODULE_NAME,
-
+        EntryNameResolverModule::MODULE_NAME,
         Module::MODULE_NAME,
 
         Service\Module1\Module::MODULE_NAME,
@@ -24,8 +26,6 @@ return [
     ],
     'module_listener_options' => [
         'module_paths'      => [
-            ModuleOptions::MODULE_NAME,
-
             Module::MODULE_NAME => TestPaths::getPathToModule(),
 
             Service\Module1\Module::MODULE_NAME => TestPaths::getPathToContextResolverTestServiceDir() . 'module1',

@@ -16,8 +16,7 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\InitProviderInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Nnx\Container\EntryNameResolver\EntryNameResolverManager;
-use Nnx\Container\EntryNameResolver\EntryNameResolverProviderInterface;
+
 
 /**
  * Class Module
@@ -71,14 +70,6 @@ class Module implements
             throw new Exception\InvalidArgumentException($errMsg);
         }
 
-
-        $serviceListener->addServiceManager(
-            EntryNameResolverManager::class,
-            EntryNameResolverManager::CONFIG_KEY,
-            EntryNameResolverProviderInterface::class,
-            'getEntryNameResolverConfig'
-        );
-        
         $serviceListener->addServiceManager(
             ContainerInterface::class,
             Container::CONFIG_KEY,

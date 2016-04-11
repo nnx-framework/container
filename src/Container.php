@@ -7,7 +7,7 @@ namespace Nnx\Container;
 
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
-use Nnx\Container\EntryNameResolver\EntryNameResolverInterface;
+use Nnx\EntryNameResolver\EntryNameResolverInterface;
 
 /**
  * Class Container

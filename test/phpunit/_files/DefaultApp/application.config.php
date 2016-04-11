@@ -7,10 +7,12 @@
 use Nnx\Container\PhpUnit\TestData\TestPaths;
 use Nnx\Container\Module;
 use Nnx\ModuleOptions\Module as ModuleOptions;
+use Nnx\EntryNameResolver\Module as EntryNameResolverModule;
 
 return [
     'modules'                 => [
         ModuleOptions::MODULE_NAME,
+        EntryNameResolverModule::MODULE_NAME,
         Module::MODULE_NAME
     ],
     'module_listener_options' => [

@@ -7,7 +7,6 @@ namespace Nnx\Container\Options;
 
 use Zend\Stdlib\AbstractOptions;
 use Nnx\ModuleOptions\ModuleOptionsInterface;
-use Nnx\Container\Options\ModuleOptionsInterface as CurrentModuleOptionsInterface;
 
 
 /**
@@ -15,7 +14,7 @@ use Nnx\Container\Options\ModuleOptionsInterface as CurrentModuleOptionsInterfac
  *
  * @package Nnx\Container\Options
  */
-class ModuleOptions extends AbstractOptions implements ModuleOptionsInterface, CurrentModuleOptionsInterface
+class ModuleOptions extends AbstractOptions implements ModuleOptionsInterface
 {
     /**
      * Список резолверов для определения имени "сервиса", исходя из контекста.
@@ -23,6 +22,13 @@ class ModuleOptions extends AbstractOptions implements ModuleOptionsInterface, C
      * @var array
      */
     protected $entryNameResolvers = [];
+
+    /**
+     * Карта используемая для определения имени сервиса в зависимости от контекста вызова
+     *
+     * @var array
+     */
+    protected $contextMap = [];
 
     /**
      * @inheritdoc
@@ -44,6 +50,30 @@ class ModuleOptions extends AbstractOptions implements ModuleOptionsInterface, C
     public function setEntryNameResolvers(array $entryNameResolvers = [])
     {
         $this->entryNameResolvers = $entryNameResolvers;
+
+        return $this;
+    }
+
+    /**
+     * Возвращает карту используемую для определения имени сервиса в зависимости от контекста вызова
+     *
+     * @return array
+     */
+    public function getContextMap()
+    {
+        return $this->contextMap;
+    }
+
+    /**
+     * Устанавливает карту используемую для определения имени сервиса в зависимости от контекста вызова
+     *
+     * @param array $contextMap
+     *
+     * @return $this
+     */
+    public function setContextMap(array $contextMap = [])
+    {
+        $this->contextMap = $contextMap;
 
         return $this;
     }
