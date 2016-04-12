@@ -5,18 +5,35 @@
  */
 namespace Nnx\Container\PhpUnit\Test;
 
+use Nnx\Container\Container;
 use Nnx\Container\PhpUnit\TestData\TestPaths;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use Nnx\Container\ContainerInterface;
 use Nnx\Container\PhpUnit\TestData\ContextResolver\Custom\Service as ServiceApp;
 
 /**
- * Class ContainerTest
+ * Class ContainerFunctionalTest
  *
  * @package Nnx\Container\PhpUnit\Test
  */
-class ContainerTest extends AbstractHttpControllerTestCase
+class ContainerFunctionalTest extends AbstractHttpControllerTestCase
 {
+
+    /**
+     * @inheritdoc
+     *
+     * @throws \Zend\Stdlib\Exception\LogicException
+     */
+    protected function setUp()
+    {
+        /** @noinspection PhpIncludeInspection */
+        $this->setApplicationConfig(
+            include TestPaths::getPathToContextResolverAppConfig()
+        );
+
+        parent::setUp();
+    }
+
 
     /**
      * Тестирование получения службы по контексту
@@ -51,11 +68,6 @@ class ContainerTest extends AbstractHttpControllerTestCase
      */
     public function testLoadModule()
     {
-        /** @noinspection PhpIncludeInspection */
-        $this->setApplicationConfig(
-            include TestPaths::getPathToContextResolverAppConfig()
-        );
-
         /** @var ContainerInterface $container */
         $container = $this->getApplicationServiceLocator()->get(ContainerInterface::class);
 
@@ -78,11 +90,6 @@ class ContainerTest extends AbstractHttpControllerTestCase
      */
     public function testGetEntryByContext($entryName, $context, $expectedEntryClassName)
     {
-        /** @noinspection PhpIncludeInspection */
-        $this->setApplicationConfig(
-            include TestPaths::getPathToContextResolverAppConfig()
-        );
-
         /** @var ContainerInterface $container */
         $container = $this->getApplicationServiceLocator()->get(ContainerInterface::class);
 
@@ -90,5 +97,34 @@ class ContainerTest extends AbstractHttpControllerTestCase
         static::assertInstanceOf($expectedEntryClassName, $container->getByContext($entryName, [], $context));
         static::assertTrue($container->has($entryName, true, true, $context));
         static::assertTrue($container->hasByContext($entryName, $context));
+    }
+
+    /**
+     *  Проверка getter/setter для свойства flagUsePeeringServiceManagers
+     *
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
+     */
+    public function testSetterGetterFlagUsePeeringServiceManagers()
+    {
+        /** @var Container $container */
+        $container = $this->getApplicationServiceLocator()->get(ContainerInterface::class);
+
+        static::assertEquals($container, $container->setFlagUsePeeringServiceManagers(true));
+        static::assertTrue($container->getFlagUsePeeringServiceManagers());
+    }
+
+
+    /**
+     *  Проверка getter/setter для свойства flagCheckAbstractFactories
+     *
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
+     */
+    public function testSetterGetterFlagCheckAbstractFactories()
+    {
+        /** @var Container $container */
+        $container = $this->getApplicationServiceLocator()->get(ContainerInterface::class);
+
+        static::assertEquals($container, $container->setFlagCheckAbstractFactories(false));
+        static::assertFalse($container->getFlagCheckAbstractFactories());
     }
 }
