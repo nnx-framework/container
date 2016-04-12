@@ -20,22 +20,46 @@ interface ContainerInterface extends BaseContainerInterface
      * @param string $id
      * @param array  $options
      *
-     * @param mixed   $context
+     * @param bool   $usePeeringServiceManagers
+     * @param mixed  $context
      *
      * @return mixed
      */
-    public function get($id, array $options = null, $context = null);
+    public function get($id, array $options = [], $usePeeringServiceManagers = true, $context = null);
+
+    /**
+     * Получить службу исходя из контекста вызова
+     *
+     * @param       $name
+     * @param array $options
+     * @param       $context
+     *
+     * @return mixed
+     */
+    public function getByContext($name, array $options = [], $context);
 
     /**
      * Проверяет возможность получить объект из данного контейнера
      *
-     * @param string $id
+     * @param string $name
+     * @param bool   $checkAbstractFactories
+     * @param bool   $usePeeringServiceManagers
+     * @param mixed  $context
      *
-     * @param mixed   $context
+     * @return bool
+     *
+     */
+    public function has($name, $checkAbstractFactories = true, $usePeeringServiceManagers = true, $context = null);
+
+    /**
+     * Проверить есть ли  служба исходя из контекста вызова
+     *
+     * @param $name
+     * @param $context
      *
      * @return bool
      */
-    public function has($id, $context = null);
+    public function hasByContext($name, $context);
 
     /**
      * Возвращает имя, по которому можно получить объект из контейнера, в зависимости от контекста вызова

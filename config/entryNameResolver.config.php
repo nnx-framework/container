@@ -6,10 +6,10 @@
 namespace Nnx\Container;
 
 use Nnx\EntryNameResolver\EntryNameResolverManager;
-use Nnx\Container\EntryNameResolver\DefaultEntryNameResolver;
 use Nnx\Container\EntryNameResolver\DefaultEntryNameResolverFactory;
 use Nnx\Container\EntryNameResolver\ResolverByModuleContextMap;
 use Nnx\Container\EntryNameResolver\ResolverByModuleContextMapFactory;
+use Nnx\Container\EntryNameResolver\DefaultEntryNameResolverInterface;
 
 return [
     EntryNameResolverManager::CONFIG_KEY => [
@@ -17,7 +17,7 @@ return [
 
         ],
         'factories'          => [
-            DefaultEntryNameResolver::class => DefaultEntryNameResolverFactory::class,
+            DefaultEntryNameResolverInterface::class => DefaultEntryNameResolverFactory::class,
             ResolverByModuleContextMap::class => ResolverByModuleContextMapFactory::class
         ],
         'abstract_factories' => [

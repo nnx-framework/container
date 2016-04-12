@@ -5,6 +5,7 @@
  */
 namespace Nnx\Container;
 
+use Nnx\ModuleOptions\ModuleConfigKeyProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Listener\ServiceListenerInterface;
 use Zend\ModuleManager\ModuleManager;
@@ -27,7 +28,8 @@ class Module implements
     BootstrapListenerInterface,
     AutoloaderProviderInterface,
     InitProviderInterface,
-    ConfigProviderInterface
+    ConfigProviderInterface,
+    ModuleConfigKeyProviderInterface
 {
     /**
      * Имя секции в конфиги приложения отвечающей за настройки модуля
@@ -42,6 +44,17 @@ class Module implements
      * @var string
      */
     const MODULE_NAME = __NAMESPACE__;
+
+    /**
+     * @inheritdoc
+     *
+     * @return string
+     */
+    public function getModuleConfigKey()
+    {
+        return static::CONFIG_KEY;
+    }
+
 
     /**
      * @param ModuleManagerInterface $manager

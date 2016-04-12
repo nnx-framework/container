@@ -66,11 +66,10 @@ class Container extends AbstractPluginManager implements ContainerInterface
      *
      * @return mixed
      */
-    public function get($id, array $options = null, $context = null)
+    public function get($id, array $options = [], $usePeeringServiceManagers = true, $context = null)
     {
         $resolvedId = $this->getEntryNameByContext($id, $context);
-        $flagUsePeeringServiceManagers = $this->getFlagUsePeeringServiceManagers();
-        return parent::get($resolvedId, $options, $flagUsePeeringServiceManagers);
+        return parent::get($resolvedId, $options, $usePeeringServiceManagers);
     }
 
     /**
@@ -82,12 +81,49 @@ class Container extends AbstractPluginManager implements ContainerInterface
      * @return bool|void
      *
      */
-    public function has($id, $context = null)
+    public function has($name, $checkAbstractFactories = true, $usePeeringServiceManagers = true, $context = null)
     {
-        $resolvedId = $this->getEntryNameByContext($id, $context);
-        $flagCheckAbstractFactories = $this->getFlagCheckAbstractFactories();
-        $flagUsePeeringServiceManagers = $this->getFlagUsePeeringServiceManagers();
-        return parent::has($resolvedId, $flagCheckAbstractFactories, $flagUsePeeringServiceManagers);
+        if (is_array($name)) {
+            return parent::has($name, $checkAbstractFactories, $usePeeringServiceManagers);
+        }
+        $resolvedId = $this->getEntryNameByContext($name, $context);
+        return parent::has($resolvedId, $checkAbstractFactories, $usePeeringServiceManagers);
+    }
+
+    /**
+     * Проверить есть ли  служба исходя из контекста вызова
+     *
+     * @param $name
+     * @param $context
+     *
+     * @return bool|void
+     */
+    public function hasByContext($name, $context)
+    {
+        $resolvedId = $this->getEntryNameByContext($name, $context);
+        $checkAbstractFactories = $this->getFlagCheckAbstractFactories();
+        $usePeeringServiceManagers = $this->getFlagUsePeeringServiceManagers();
+
+        return $this->has($resolvedId, $checkAbstractFactories, $usePeeringServiceManagers, $context);
+    }
+
+    /**
+     * Получить службу исходя из контекста вызова
+     *
+     * @param       $name
+     * @param array $options
+     * @param       $context
+     *
+     * @return mixed
+     *
+     * @throws \Zend\ServiceManager\Exception\RuntimeException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
+     */
+    public function getByContext($name, array $options = [], $context)
+    {
+        $usePeeringServiceManagers = $this->getFlagUsePeeringServiceManagers();
+        return $this->get($name, $options, $usePeeringServiceManagers, $context);
     }
 
     /**

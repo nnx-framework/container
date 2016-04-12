@@ -5,13 +5,13 @@
  */
 namespace Nnx\Container\EntryNameResolver;
 
-use Nnx\EntryNameResolver\EntryNameResolverChain;
+use Nnx\EntryNameResolver\EntryNameResolverInterface;
 
 /**
- * Class DefaultEntryNameResolver
+ * Interface DefaultEntryNameResolverInterface
  *
  * @package Nnx\Container\EntryNameResolver
  */
-class DefaultEntryNameResolver extends EntryNameResolverChain implements DefaultEntryNameResolverInterface
+interface DefaultEntryNameResolverInterface extends EntryNameResolverInterface
 {
 }

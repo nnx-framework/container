@@ -5,4 +5,12 @@
  */
 namespace Nnx\Container\PhpUnit\TestData\IntegrationModule;
 
-return [];
+use Nnx\Container\Module;
+
+return [
+    Module::CONFIG_KEY => [
+        'contextMap' => [
+
+        ]
+    ]
+];
