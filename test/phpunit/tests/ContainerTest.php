@@ -61,7 +61,6 @@ class ContainerTest extends AbstractHttpControllerTestCase
 
         $entryName = 'UnknownService';
         $container->get($entryName);
-
     }
 
 
@@ -88,9 +87,8 @@ class ContainerTest extends AbstractHttpControllerTestCase
         $container = $this->getApplicationServiceLocator()->get(ContainerInterface::class);
 
         static::assertInstanceOf($expectedEntryClassName, $container->get($entryName, [], null, $context));
-        static::assertInstanceOf($expectedEntryClassName, $container->getByContext($entryName, [],$context));
+        static::assertInstanceOf($expectedEntryClassName, $container->getByContext($entryName, [], $context));
         static::assertTrue($container->has($entryName, true, true, $context));
         static::assertTrue($container->hasByContext($entryName, $context));
-
     }
 }
