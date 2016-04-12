@@ -1,6 +1,7 @@
 docs_dir: doc/book/ru
 pages:
     - index.md
+    'Передача аргументов при создание службы': 'creation-options.md'
 site_name: container
 site_description: 'Контейнер - расширение ServiceLocator'
 repo_url: 'https://github.com/nnx-framework/container'
