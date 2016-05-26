@@ -2,28 +2,27 @@
 
 # Краткое описание
 
-Контейнер \Nnx\Container\ContainerInterface расширяет функционал AbstractPluginManager'a позволяя в зависимости от контекста
-вызова, определять какую службу необходим вернуть.
+Контейнер \Nnx\Container\ContainerInterface расширяет функционал AbstractPluginManager'a, позволяя в зависимости от контекста
+вызова определять, какую службу необходимо вернуть.
 
 Для этого к методам get и has в качестве последнего аргумента можно передать контекст:
 
-- Имя класса принадлежащий модулю, в контексте которого происходит вызов
-- Объект инстанцированный от класса, принадлежащего модулю, в контексте которого происходит вызов
+- Имя класса, принадлежащего модулю, в контексте которого происходит вызов;
+- Объект, инстанцированный от класса, принадлежащего модулю, в контексте которого происходит вызов.
 
-Также добавлены следующие методы
+Также добавлены следующие методы:
 
 Имя метода           |Описание
 ---------------------|----------------
-getByContext         |Позволяет создать службу, указав ее имя, опции, и контекст
-hasByContext         |Позволяет проверить есть ли возможность создать службу с заданным именем и контекстом
-getEntryNameByContext|Позволяет получить имя службы, на основе базовго имени, для указанного контекста
+getByContext         |Позволяет создать службу, указав ее имя, опции и контекст
+hasByContext         |Позволяет проверить, есть ли возможность создать службу с заданным именем и контекстом
+getEntryNameByContext|Позволяет получить имя службы на основе базового имени для указанного контекста
 
 Для определения имени службы в зависимости от контекста используется модуль [nnx-framework/entry-name-resolver](https://github.com/nnx-framework/entry-name-resolver).
 
 # Управление механизмом определения имени службы в зависимости от контекста
 
-Для определения имени службы используется цепочка resolver'ов. Используемые resolver'ы описываются в секции **entryNameResolvers**,
-в рамках секции настроек модуля **nnx_container_module_options**.
+Для определения имени службы используется цепочка resolver'ов. Используемые resolver'ы описываются в секции entryNameResolvers в рамках секции настроек модуля nnx_container_module_options.
 
 Пример описания цепочки используемых resolver'ов:
 
@@ -49,14 +48,14 @@ return [
 ```
 
 Ключом является произвольная строка (в примере выше это resolverByModuleContextMap, resolverByModuleContextMap, mirrorResolver),
-которая не несёт смысловой нагрузки, и используется только для того, что бы дать возможность переопределить конфиг в другом модуле.
+которая не несёт смысловой нагрузки и используется только для того, чтобы дать возможность переопределить конфиг в другом модуле.
 
 Значением является массив со следующей структурой:
 
 Имя ключа    |Обязательный|Тип   |
 -------------|------------|------|--------------------------------------------------------------------------------------  
-name         |да          |строка|Имя resolver'a, по данном имени он будет создаватсья с помощью \Nnx\EntryNameResolver\EntryNameResolverManagerInterface
-options      |нет         |массив|Настройки используемые при создание resolver'a
+name         |да          |строка|Имя resolver'a, по данному имени он будет создаваться с помощью \Nnx\EntryNameResolver\EntryNameResolverManagerInterface
+options      |нет         |массив|Настройки, используемые при создание resolver'a
 priority     |нет         |число |Приоритет в очереди
 
 ## \Nnx\Container\EntryNameResolver\ResolverByModuleContextMap - определение имени службы с помощью конфигурационной карты
@@ -82,35 +81,15 @@ return [
 
 ```
 
-Более детальное описание работы данного resolver'a можно найти в [документации](http://entry-name-resolver.readthedocs.org/ru/latest/resolver-by-module-context-map/).
-**Важно, что для настройки необходимо использовать секцию 'contextMap', в настройках модуля (секция 'nnx_container_module_options')**
+Более детальное описание работы данного resolver'a можно найти в [документации](https://github.com/nnx-framework/entry-name-resolver/blob/master/doc/book/ru/resolver-by-module-context-map.md).
+Важно, что для настройки необходимо использовать секцию 'contextMap' в настройках модуля (секция 'nnx_container_module_options')
 
-##  \Nnx\EntryNameResolver\ResolverByClassName - определение имени службы, для модулей с одинаковой структурой
+##  \Nnx\EntryNameResolver\ResolverByClassName — определение имени службы для модулей с одинаковой структурой
 
-Детальное описание resolver'a - (ResolverByClassName)[http://entry-name-resolver.readthedocs.org/ru/latest/resolver-by-class-name/]
+Детальное описание resolver'a: [ResolverByClassName](https://github.com/nnx-framework/entry-name-resolver/blob/master/doc/book/ru/resolver-by-class-name.md)
 
-##  \Nnx\EntryNameResolver\EntryNameResolverMirror - Если не удалось определить имя службы.
+##  \Nnx\EntryNameResolver\EntryNameResolverMirror — если не удалось определить имя службы.
 
-Если не удалось в зависимости от контекста определить имя службы, то возвращается то же имя что было при запросе.
+Если не удалось в зависимости от контекста определить имя службы, то возвращается то же имя, что было при запросе.
 
-Детальное описание resolver'a - (EntryNameResolverMirror)[http://entry-name-resolver.readthedocs.org/ru/latest/entry-name-resolver-mirror/]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
+Детальное описание resolver'a - [EntryNameResolverMirror](https://github.com/nnx-framework/entry-name-resolver/blob/master/doc/book/ru/entry-name-resolver-mirror.md)
